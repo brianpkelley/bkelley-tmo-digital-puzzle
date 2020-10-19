@@ -4,6 +4,7 @@ import {
   addToReadingList,
   clearSearch,
   getAllBooks,
+  getBooksSearchTerm,
   ReadingListBook,
   searchBooks
 } from '@tmo/books/data-access';
@@ -17,7 +18,7 @@ import { Book } from '@tmo/shared/models';
 })
 export class BookSearchComponent implements OnInit {
   books: ReadingListBook[];
-
+  lastSearchTerm: string;
   searchForm = this.fb.group({
     term: ''
   });
@@ -30,10 +31,17 @@ export class BookSearchComponent implements OnInit {
   get searchTerm(): string {
     return this.searchForm.value.term;
   }
+  set searchTerm( val: string ) {
+    this.searchForm.setValue({ term: val || '' });
+  }
 
   ngOnInit(): void {
     this.store.select(getAllBooks).subscribe(books => {
       this.books = books;
+	});
+	this.store.select(getBooksSearchTerm).subscribe(term => {
+		this.searchTerm = term;
+		this.lastSearchTerm = term;
     });
   }
 
@@ -53,10 +61,22 @@ export class BookSearchComponent implements OnInit {
   }
 
   searchBooks() {
-    if (this.searchForm.value.term) {
+    if (this.searchTerm && this.isNewSearch() ) {
       this.store.dispatch(searchBooks({ term: this.searchTerm }));
     } else {
       this.store.dispatch(clearSearch());
     }
+  }
+
+  submitButtonText() {
+	if ( !this.isNewSearch() ) {
+		return 'clear';
+	} else {
+		return 'search';
+	}
+  }
+
+  isNewSearch(): boolean {
+	return this.lastSearchTerm !== this.searchTerm;
   }
 }
