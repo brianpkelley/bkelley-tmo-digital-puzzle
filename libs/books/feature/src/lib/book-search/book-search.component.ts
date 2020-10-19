@@ -1,15 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
   addToReadingList,
   clearSearch,
   getAllBooks,
+  getBooksLoaded,
   getBooksSearchTerm,
   ReadingListBook,
   searchBooks
 } from '@tmo/books/data-access';
 import { FormBuilder } from '@angular/forms';
 import { Book } from '@tmo/shared/models';
+import { fromEvent } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
+
+enum EButtonType {
+	CLEAR = 'clear',
+	SEARCH = 'search'
+}
 
 @Component({
   selector: 'tmo-book-search',
@@ -22,6 +30,9 @@ export class BookSearchComponent implements OnInit {
   searchForm = this.fb.group({
     term: ''
   });
+  loaded = false;
+
+  @ViewChild('search', {static: true}) searchEl: ElementRef;
 
   constructor(
     private readonly store: Store,
@@ -42,7 +53,17 @@ export class BookSearchComponent implements OnInit {
 	this.store.select(getBooksSearchTerm).subscribe(term => {
 		this.searchTerm = term;
 		this.lastSearchTerm = term;
-    });
+	});
+	this.store.select(getBooksLoaded).subscribe(loaded => {
+	  this.loaded = loaded;
+	});
+	
+	
+	fromEvent( this.searchEl.nativeElement, 'input' ).pipe(
+		filter( ( e: KeyboardEvent ) => e.key !== "enter" ),
+		debounceTime(500),
+		distinctUntilChanged()
+	).subscribe( ( e ) => this.searchBooks() );
   }
 
   formatDate(date: void | string) {
@@ -61,18 +82,18 @@ export class BookSearchComponent implements OnInit {
   }
 
   searchBooks() {
-    if (this.searchTerm && this.isNewSearch() ) {
+	if ( this.searchTerm && this.isNewSearch() ) {
       this.store.dispatch(searchBooks({ term: this.searchTerm }));
-    } else {
-      this.store.dispatch(clearSearch());
-    }
+	} else {
+		this.store.dispatch(clearSearch());
+	}	
   }
 
   submitButtonText() {
 	if ( !this.isNewSearch() ) {
-		return 'clear';
+		return EButtonType.CLEAR;
 	} else {
-		return 'search';
+		return EButtonType.SEARCH;
 	}
   }
 

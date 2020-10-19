@@ -1,5 +1,4 @@
-<form [formGroup]="searchForm" (submit)="searchBooks()"	role="search"
->
+<form [formGroup]="searchForm" role="search" #f="ngForm">
   <mat-form-field floatLabel="never">
     <input
       autoFocus
@@ -9,15 +8,16 @@
 	  formControlName="term"
 	  accesskey="s"
 	  tabindex="0"
+	  #search
     />
-    <button mat-icon-button matSuffix attr.aria-label="{{ submitButtonText() | titlecase }}">
-      <mat-icon>{{ submitButtonText() }}</mat-icon>
+    <button mat-icon-button matSuffix attr.aria-label="{{ submitButtonText() | titlecase }}" (click)="searchBooks()">
+		<mat-icon>{{ submitButtonText() }}</mat-icon>
     </button>
   </mat-form-field>
 </form>
 
 <ng-container *ngIf="searchTerm; else empty">
-  <section role="region" class="book-grid">
+  <section role="region" class="book-grid" [ngClass]="{loading: !loaded}">
     <article class="book" data-testing="book-item" *ngFor="let b of books">
       <h3 class="book--title">
         {{ b.title }}
