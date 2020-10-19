@@ -12,6 +12,10 @@ form {
   display: grid;
   grid-template-columns: 50% 50%;
   grid-template-rows: auto;
+
+  &.loading {
+	opacity: 0.25;
+  }
 }
 
 .book {
@@ -66,6 +70,8 @@ form {
 
 }
 
+
+
 .empty {
   display: flex;
   text-align: center;
@@ -79,3 +85,4 @@ form {
 	  text-decoration: none;
   }
 }
+
