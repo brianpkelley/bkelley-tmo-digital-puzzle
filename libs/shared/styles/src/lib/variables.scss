@@ -1,11 +1,15 @@
 $pink-accent: #ff4081;
 $pink-dark: #c62d62;
 $pink-very-dark: #760e32;
+$indigo: #3f51b5;
+$indigo-light: lighten( $indigo, 10% );
+$indigo-dark: darken( $indigo, 10% );
 $gray05: #f8f8f8;
 $gray10: #f2f2f2;
 $gray20: #e8e8e8;
 $gray30: #cccccc;
 $gray40: #9b9b9b;
+$gray50: #808080;
 $gray60: #6a6a6a;
 $gray70: #4c4c4c;
 $gray80: #333333;

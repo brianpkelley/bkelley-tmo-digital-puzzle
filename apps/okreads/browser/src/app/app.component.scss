@@ -19,7 +19,8 @@ h1 {
   padding: $spacing-3xs $spacing-xs;
 
   button {
-    padding: 0 $spacing-xs;
+	padding: 0 $spacing-xs;
+	background: $pink-dark;
   }
 }
 
@@ -65,3 +66,4 @@ main {
 .reading-list-content {
   padding: $spacing-xxs;
 }
+
