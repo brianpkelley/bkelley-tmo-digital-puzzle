@@ -8,14 +8,17 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { TotalCountComponent } from './total-count/total-count.component';
 import { ReadingListComponent } from './reading-list/reading-list.component';
+import { ReadStatusComponent } from './read-status/read-status.component';
 
 const EXPORTS = [
   BookSearchComponent,
   TotalCountComponent,
-  ReadingListComponent
+  ReadingListComponent,
+  ReadStatusComponent
 ];
 
 @NgModule({
@@ -25,7 +28,8 @@ const EXPORTS = [
     MatBadgeModule,
     MatIconModule,
     MatInputModule,
-    MatSnackBarModule,
+	MatSnackBarModule,
+	MatSlideToggleModule,
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forChild([

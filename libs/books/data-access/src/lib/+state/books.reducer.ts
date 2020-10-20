@@ -10,6 +10,7 @@ export interface State extends EntityState<Book> {
   loaded: boolean;
   error?: string | null;
   searchTerm?: string;
+  filterComplete?: boolean;
 }
 
 export interface BooksPartialState {
@@ -40,8 +41,12 @@ const booksReducer = createReducer(
     ...state,
     error
   })),
-  on(BooksActions.clearSearch, state => booksAdapter.removeAll( {...state, searchTerm: undefined }))
-);
+  on(BooksActions.clearSearch, state => booksAdapter.removeAll( {...state, searchTerm: undefined })),
+  on(BooksActions.setFilter, ( state, { hideComplete } ) => ({
+	  ...state,
+	  filterComplete: hideComplete
+  }))
+)
 
 export function reducer(state: State | undefined, action: Action) {
   return booksReducer(state, action);
