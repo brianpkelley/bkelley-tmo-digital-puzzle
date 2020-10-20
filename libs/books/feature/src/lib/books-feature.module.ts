@@ -11,6 +11,8 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { TotalCountComponent } from './total-count/total-count.component';
 import { ReadingListComponent } from './reading-list/reading-list.component';
+import { EffectsModule } from '@ngrx/effects';
+import { BooksSearchEffects } from './book-search/book-search.effects';
 
 const EXPORTS = [
   BookSearchComponent,
@@ -29,9 +31,10 @@ const EXPORTS = [
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forChild([
-      { path: '', pathMatch: 'full', component: BookSearchComponent }
+		{ path: '', pathMatch: 'full', component: BookSearchComponent }
     ]),
-    BooksDataAccessModule
+	BooksDataAccessModule,
+	EffectsModule.forFeature([BooksSearchEffects])
   ],
   exports: [...EXPORTS],
   declarations: [...EXPORTS]

@@ -10,7 +10,7 @@
 	  accesskey="s"
 	  tabindex="0"
     />
-    <button mat-icon-button matSuffix attr.aria-label="{{ submitButtonText() | titlecase }}">
+    <button type="button" mat-icon-button matSuffix attr.aria-label="{{ submitButtonText() | titlecase }}" (click)="searchOrClear()">
       <mat-icon>{{ submitButtonText() }}</mat-icon>
     </button>
   </mat-form-field>
@@ -18,13 +18,14 @@
 
 <ng-container *ngIf="searchTerm; else empty">
   <section role="region" class="book-grid">
-    <article class="book" data-testing="book-item" *ngFor="let b of books">
+    <article class="book" data-testing="book-item" *ngFor="let b of books; trackBy:trackById(b)">
+		<!-- <pre>{{ b | json }}</pre> -->
       <h3 class="book--title">
         {{ b.title }}
 	  </h3>
       <div class="book--content">
         <div class="book--content--cover">
-          <img src="{{ b.coverUrl }}" alt="{{ b.title }} Cover Photo" />
+          <img [src]="b.coverUrl" alt="{{ b.title }} Cover Photo" />
         </div>
         <div class="book--content--info">
           <div><strong aria-role="term">Author:</strong> <span aria-role="definition">{{ b.authors.join(',') }}</span></div>
@@ -34,11 +35,10 @@
           <div>
             <button
               mat-flat-button
-              color="primary"
-              (click)="addBookToReadingList(b)"
-              [disabled]="b.isAdded"
+              [color]="b.isAdded ? 'accent' : 'primary'"
+              (click)="handleBookAction( b )"
             >
-              Want to Read
+              {{ b.isAdded ? 'Remove' : 'Want to Read' }}
             </button>
           </div>
         </div>
