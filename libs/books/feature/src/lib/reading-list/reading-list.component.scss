@@ -19,6 +19,11 @@
     flex-direction: column;
     justify-content: center;
   }
+
+  > .reading-list-item--actions {
+		display: flex;
+		flex-direction: row;
+	}
 }
 
 .reading-list-item--cover {

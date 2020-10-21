@@ -20,6 +20,10 @@ form {
   margin: 2px;
   padding: $spacing-xxs;
   background-color: $gray10;
+
+  &.read {
+	  background: $indigo-lightest;
+  }
 }
 
 .book--title {
@@ -48,22 +52,34 @@ form {
   }
 
   > div:last-child {
-    margin: 0;
-    flex: 1;
-    position: relative;
-    padding-bottom: $spacing-lg;
-
+	margin: 0;
+	display: flex;
+	flex: 1;
+	flex-direction: row;
+	padding-top: $spacing-lg;
+	justify-content: flex-end;
+	align-items: center;
+	span {
+		line-height: 40px;
+	}
     button {
-      position: absolute;
-      bottom: 0;
-	  right: 0;
-	  
+	  height: 40px;
 	  &:focus {
 		box-shadow: 0 0 0pt 3pt transparentize($indigo, 0.75);
+	  }
+	  &:last-child {
+		  margin-left: 8px;
 	  }
     }
   }
 
+}
+
+.filter-row {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	margin-bottom: $spacing-xs;
 }
 
 .empty {

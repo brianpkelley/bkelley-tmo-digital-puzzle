@@ -27,4 +27,9 @@ export const getBooksError = createSelector(
   (state: State) => state.error
 );
 
+export const shouldFilterComplete = createSelector(
+	getBooksState,
+	( state: State ) => state.filterComplete
+)
+
 export const getBooks = createSelector(getBooksState, selectAll);

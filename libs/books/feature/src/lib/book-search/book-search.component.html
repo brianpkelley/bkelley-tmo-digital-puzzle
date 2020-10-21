@@ -17,8 +17,11 @@
 </form>
 
 <ng-container *ngIf="searchTerm; else empty">
+	<div class="filter-row">
+		<mat-slide-toggle (change)="toggleComplete()" [(checked)]="filterComplete" labelPosition="before">Sort Completed Books</mat-slide-toggle>
+	</div>
   <section role="region" class="book-grid">
-    <article class="book" data-testing="book-item" *ngFor="let b of books">
+    <article class="book" data-testing="book-item" *ngFor="let b of books" [ngClass]="{read: b.finished }">
       <h3 class="book--title">
         {{ b.title }}
 	  </h3>
@@ -32,13 +35,17 @@
           <div><strong aria-role="term">Published:</strong> <span aria-role="definition">{{ formatDate(b.publishedDate) }}</span></div>
           <p [innerHTML]="b.description"></p>
           <div>
+			<span *ngIf="b.finished">
+				{{ formatDate( b.finishedDate ) }}
+			</span>
+			<tmo-read-status [book]="b"></tmo-read-status>
             <button
               mat-flat-button
               color="primary"
               (click)="addBookToReadingList(b)"
               [disabled]="b.isAdded"
             >
-              Want to Read
+              {{ b.finished && b.isAdded ? 'Finished' : 'Want to Read' }}
             </button>
           </div>
         </div>

@@ -5,6 +5,8 @@ import {
   clearSearch,
   getAllBooks,
   getBooksSearchTerm,
+  shouldFilterComplete,
+  setFilter, 
   ReadingListBook,
   searchBooks
 } from '@tmo/books/data-access';
@@ -22,6 +24,7 @@ export class BookSearchComponent implements OnInit {
   searchForm = this.fb.group({
     term: ''
   });
+  filterComplete = false;
 
   constructor(
     private readonly store: Store,
@@ -37,12 +40,17 @@ export class BookSearchComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.select(getAllBooks).subscribe(books => {
+		console.log( books );
       this.books = books;
 	});
 	this.store.select(getBooksSearchTerm).subscribe(term => {
 		this.searchTerm = term;
 		this.lastSearchTerm = term;
-    });
+	});
+	this.store.select( shouldFilterComplete ).subscribe( hide => {
+		console.log( hide );
+		this.filterComplete = hide;
+	})
   }
 
   formatDate(date: void | string) {
@@ -78,5 +86,9 @@ export class BookSearchComponent implements OnInit {
 
   isNewSearch(): boolean {
 	return this.lastSearchTerm !== this.searchTerm;
+  }
+
+  toggleComplete() {
+	  this.store.dispatch(setFilter( {filterComplete: !this.filterComplete} ))
   }
 }

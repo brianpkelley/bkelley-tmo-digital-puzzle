@@ -38,7 +38,7 @@ export class ReadingListEffects implements OnInitEffects {
     )
   );
 
-  removeBook$ = createEffect(() =>
+	removeBook$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ReadingListActions.removeFromReadingList),
       concatMap(({ item }) =>

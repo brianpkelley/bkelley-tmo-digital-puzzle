@@ -16,4 +16,9 @@ export const searchBooksFailure = createAction(
   props<{ error: any }>()
 );
 
+export const setFilter = createAction(
+	'[Book Search API] Set Filter',
+	props<{ filterComplete: boolean }>()
+);
+
 export const clearSearch = createAction('[Books Search Bar] Clear Search');

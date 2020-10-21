@@ -1,0 +1,6 @@
+<button mat-icon-button (click)="markAsComplete()">
+	<mat-icon svgIcon="book-read" color="accent" *ngIf="book.finished; else unread"></mat-icon>
+</button> 
+<ng-template #unread>
+	<mat-icon>book</mat-icon>
+</ng-template>
