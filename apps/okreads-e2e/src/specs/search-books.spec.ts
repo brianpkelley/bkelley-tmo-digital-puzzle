@@ -17,7 +17,7 @@ describe('When: Use the search feature', () => {
   })
 
   const getReadingListLength = async () : Promise<number> => {
-	return new Promise( async ( resolve, reject ) => {		
+	return new Promise( async ( resolve ) => {		
 		const readingListItems = $$('tmo-reading-list .reading-list-item');
 		const readingListLength = readingListItems.count();	
 		resolve( readingListLength );

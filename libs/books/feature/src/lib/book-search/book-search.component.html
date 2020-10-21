@@ -19,7 +19,6 @@
 <ng-container *ngIf="searchTerm; else empty">
   <section role="region" class="book-grid">
     <article class="book" data-testing="book-item" *ngFor="let b of books; trackBy:trackById(b)">
-		<!-- <pre>{{ b | json }}</pre> -->
       <h3 class="book--title">
         {{ b.title }}
 	  </h3>
