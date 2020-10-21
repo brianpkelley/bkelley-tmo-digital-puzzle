@@ -5,7 +5,9 @@ import {
   clearSearch,
   getAllBooks,
   getBooksSearchTerm,
+  getReadingList,
   ReadingListBook,
+  removeFromReadingList,
   searchBooks
 } from '@tmo/books/data-access';
 import { FormBuilder } from '@angular/forms';
@@ -36,13 +38,11 @@ export class BookSearchComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.select(getAllBooks).subscribe(books => {
-      this.books = books;
-	});
+    this.store.select(getAllBooks).subscribe( books => this.books = books );
 	this.store.select(getBooksSearchTerm).subscribe(term => {
 		this.searchTerm = term;
 		this.lastSearchTerm = term;
-    });
+	});
   }
 
   formatDate(date: void | string) {
@@ -60,7 +60,13 @@ export class BookSearchComponent implements OnInit {
     this.searchBooks();
   }
 
-  searchBooks() {
+  searchBooks(){
+	if (this.searchTerm) {
+		this.store.dispatch(searchBooks({ term: this.searchTerm }));
+	}  
+  }
+
+  searchOrClear() {
     if (this.searchTerm && this.isNewSearch() ) {
       this.store.dispatch(searchBooks({ term: this.searchTerm }));
     } else {
@@ -78,5 +84,17 @@ export class BookSearchComponent implements OnInit {
 
   isNewSearch(): boolean {
 	return this.lastSearchTerm !== this.searchTerm;
+  }
+
+  handleBookAction( book: ReadingListBook ) {
+	if ( book.isAdded ) {
+	    this.store.dispatch( removeFromReadingList( { item: { bookId: book.id, ...book } } ) );
+	} else {
+	  this.store.dispatch(addToReadingList({ book }));
+	}
+  }
+
+  trackById( b ) {
+	return b ? b.id : undefined;
   }
 }
