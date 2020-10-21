@@ -17,7 +17,9 @@ export interface BooksPartialState {
   readonly [BOOKS_FEATURE_KEY]: State;
 }
 
-export const booksAdapter: EntityAdapter<Book> = createEntityAdapter<Book>();
+export const booksAdapter: EntityAdapter<Book> = createEntityAdapter<Book>({
+	selectId: item => item.id
+});
 
 export const initialState: State = booksAdapter.getInitialState({
   loaded: false
@@ -42,9 +44,9 @@ const booksReducer = createReducer(
     error
   })),
   on(BooksActions.clearSearch, state => booksAdapter.removeAll( {...state, searchTerm: undefined })),
-  on(BooksActions.setFilter, ( state, { hideComplete } ) => ({
+  on(BooksActions.setFilter, ( state, { filterComplete } ) => ({
 	  ...state,
-	  filterComplete: hideComplete
+	  filterComplete
   }))
 )
 

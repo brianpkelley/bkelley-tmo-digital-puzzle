@@ -24,7 +24,7 @@ export class BookSearchComponent implements OnInit {
   searchForm = this.fb.group({
     term: ''
   });
-  shouldHideComplete: boolean = false;
+  filterComplete = false;
 
   constructor(
     private readonly store: Store,
@@ -40,6 +40,7 @@ export class BookSearchComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.select(getAllBooks).subscribe(books => {
+		console.log( books );
       this.books = books;
 	});
 	this.store.select(getBooksSearchTerm).subscribe(term => {
@@ -47,7 +48,8 @@ export class BookSearchComponent implements OnInit {
 		this.lastSearchTerm = term;
 	});
 	this.store.select( shouldFilterComplete ).subscribe( hide => {
-		this.shouldHideComplete = hide;
+		console.log( hide );
+		this.filterComplete = hide;
 	})
   }
 
@@ -87,6 +89,6 @@ export class BookSearchComponent implements OnInit {
   }
 
   toggleComplete() {
-	  this.store.dispatch(setFilter( {hideComplete: !this.shouldHideComplete} ))
+	  this.store.dispatch(setFilter( {filterComplete: !this.filterComplete} ))
   }
 }

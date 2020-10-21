@@ -41,12 +41,6 @@ const CompleteListReducer = createReducer(
       loaded: true
     });
   }),
-  on(CompleteListActions.loadCompleteListSuccess, (state, action) => {
-    return completeListAdapter.setAll(action.list, {
-      ...state,
-      loaded: true
-    });
-  }),
   on(CompleteListActions.loadCompleteListError, (state, action) => {
     return {
       ...state,

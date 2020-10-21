@@ -3,8 +3,10 @@ import {
   booksAdapter,
   initialState as booksInitialState
 } from './books.reducer';
+import { initialState as completeInitiaState } from './complete-list.reducer';
 import * as ToReadSelectors from './reading-list.selectors';
-import { createBook, createReadingListItem } from '@tmo/shared/testing';
+import { createBook, createCompleteListItem, createReadingListItem } from '@tmo/shared/testing';
+import { completeListAdapter } from './complete-list.reducer';
 
 describe('ReadingList Selectors', () => {
   let state;
@@ -30,7 +32,19 @@ describe('ReadingList Selectors', () => {
           error: 'Unknown error',
           loaded: true
         }
-      )
+	  ),
+	  completeList: completeListAdapter.addMany(
+		  [
+			   createCompleteListItem('A'),
+			   createCompleteListItem('B'),
+			   createCompleteListItem('C')
+		  ],
+		  {
+			  ...completeInitiaState,
+			  error: 'Unknown error',
+			  loaded: true
+		  }
+	  )
     };
   });
 

@@ -10,7 +10,7 @@ import { addToCompleteList, ReadingListBook, removeFromCompleteList } from '@tmo
   templateUrl: './read-status.component.html',
   styleUrls: ['./read-status.component.scss']
 })
-export class ReadStatusComponent implements OnInit {
+export class ReadStatusComponent {
 
   @Input() book : ReadingListBook;
 
@@ -21,9 +21,6 @@ export class ReadStatusComponent implements OnInit {
 	  );
 
    }
-
-  ngOnInit(): void {
-  }
 
   markAsComplete(){
 	  if ( this.book.finished ) {

@@ -44,9 +44,10 @@ export class CompleteListEffects implements OnInitEffects {
   	this.actions$.pipe( 
 	  ofType( ReadingListActions.addToReadingList ),
 	  map( ({ book }) => {
+		const { id, ...rest } = book; 
 		const item = {
-			bookId: book.id,
-			...book
+			bookId: id,
+			...rest
 		}
 		return CompleteListActions.removeFromCompleteList( { item } );
 	  })
@@ -73,7 +74,7 @@ export class CompleteListEffects implements OnInitEffects {
 	);
 
   ngrxOnInitEffects() {
-    return CompleteListActions.completeListInit();
+    return CompleteListActions.completeListInit(); 
   }
 
   constructor(private actions$: Actions, private http: HttpClient) {}

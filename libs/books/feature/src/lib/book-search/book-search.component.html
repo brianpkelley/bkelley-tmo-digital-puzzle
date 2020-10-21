@@ -18,7 +18,7 @@
 
 <ng-container *ngIf="searchTerm; else empty">
 	<div class="filter-row">
-		<mat-slide-toggle (change)="toggleComplete()" ([ngModel])="shouldHideComplete" labelPosition="before">Sort Completed Books</mat-slide-toggle>
+		<mat-slide-toggle (change)="toggleComplete()" [(checked)]="filterComplete" labelPosition="before">Sort Completed Books</mat-slide-toggle>
 	</div>
   <section role="region" class="book-grid">
     <article class="book" data-testing="book-item" *ngFor="let b of books" [ngClass]="{read: b.finished }">
@@ -45,7 +45,7 @@
               (click)="addBookToReadingList(b)"
               [disabled]="b.isAdded"
             >
-              {{ b.finished ? 'Finished' : 'Want to Read' }}
+              {{ b.finished && b.isAdded ? 'Finished' : 'Want to Read' }}
             </button>
           </div>
         </div>

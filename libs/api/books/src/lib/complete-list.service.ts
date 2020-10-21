@@ -12,10 +12,14 @@ export class CompleteListService {
     return this.storage.read();
   }
 
-  async addBook( b: ReadingListItem ): Promise<void> {
+  async addBook( b: Book ): Promise<void> {
 	  this.storage.update( ( list ) => {
-		 list.push( b );
-		 return list;
+		const { id, ...rest } = b;
+		list.push({
+			bookId: id,
+			...rest
+		  });
+		  return list;
 	  });
   }
 
@@ -25,3 +29,4 @@ export class CompleteListService {
     });
   }
 }
+ 
